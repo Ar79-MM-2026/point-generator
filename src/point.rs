@@ -1,4 +1,8 @@
 use bytes::{BytesMut, BufMut};
+use rand::distributions::Uniform;
+use rand::Rng;
+use crate::color::Color;
+
 
 pub struct Point {
   pub x: f32,
@@ -13,18 +17,39 @@ pub struct Point {
 
 impl Point {
 
-  pub fn white_at(x: f32, y: f32, z: f32) -> Self {
+  pub fn at(x: f32, y: f32, z: f32, color: Color) -> Self {
     Point {
       x,
       y,
       z,
       _unused: 0.0f32,
-      r: 1.0f32,
-      g: 1.0f32,
-      b: 1.0f32,
+      r: color.get_f32_r(),
+      g: color.get_f32_g(),
+      b: color.get_f32_b(),
       a: 1.0f32,
     }
   }
+
+  pub fn at_random_range(min: f32, max: f32, color: Color) -> Self {
+    let mut rng = rand::thread_rng();
+    let range = Uniform::new_inclusive(min, max);
+
+    let x = rng.sample(&range);
+    let y = rng.sample(&range);
+    let z = rng.sample(&range);
+
+    Point {
+      x,
+      y,
+      z,
+      _unused: 0.0f32,
+      r: color.get_f32_r(),
+      g: color.get_f32_g(),
+      b: color.get_f32_b(),
+      a: 1.0f32,
+    }
+  }
+
 
   pub fn to_bytes(&self) -> Vec<u8> {
     let mut buf = BytesMut::with_capacity(32);
@@ -37,5 +62,9 @@ impl Point {
     buf.put_f32(self.b);
     buf.put_f32(self.a);
     buf.to_vec()
+  }
+
+  pub fn location_string(&self) -> String {
+    format!("{}, {}, {}", self.x, self.y, self.z)
   }
 }

@@ -1,9 +1,13 @@
+//! Generate random points to send over ZeroMQ to a consumer
+
 mod point;
+mod color;
 
 use point::Point;
 use std::thread;
 use zmq::Error;
 use std::time::Duration;
+use crate::color::Color;
 
 fn main() {
   let ctx = zmq::Context::new();
@@ -14,7 +18,10 @@ fn main() {
   //socket.send("hello world!", 0).unwrap();
 
   loop {
-    let point = Point::white_at(0.0f32, 0.0f32, 0.0f32);
+    let point = Point::at_random_range(-1000.0f32, 1000.0f32, Color::White);
+
+    println!("Location: {}", point.location_string());
+
     let bytes = point.to_bytes();
 
     //let result = socket.send("hello world!", 0);
