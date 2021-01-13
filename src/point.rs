@@ -1,3 +1,4 @@
+use bytes::{BytesMut, BufMut};
 
 pub struct Point {
   pub x: f32,
@@ -23,5 +24,18 @@ impl Point {
       b: 1.0f32,
       a: 1.0f32,
     }
+  }
+
+  pub fn to_bytes(&self) -> Vec<u8> {
+    let mut buf = BytesMut::with_capacity(32);
+    buf.put_f32(self.x);
+    buf.put_f32(self.y);
+    buf.put_f32(self.z);
+    buf.put_f32(0.0f32); // Unused
+    buf.put_f32(self.r);
+    buf.put_f32(self.g);
+    buf.put_f32(self.b);
+    buf.put_f32(self.a);
+    buf.to_vec()
   }
 }
