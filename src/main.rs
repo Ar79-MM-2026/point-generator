@@ -12,6 +12,8 @@ use crate::color::Color;
 fn main() {
   let ctx = zmq::Context::new();
 
+  //let socket = ctx.socket(zmq::PUSH).unwrap();
+  //let socket = ctx.socket(zmq::REQ).unwrap();
   let socket = ctx.socket(zmq::PUSH).unwrap();
 
   socket.connect("tcp://127.0.0.1:5555").unwrap();
@@ -28,11 +30,22 @@ fn main() {
     let result = socket.send(&bytes, 0);
 
     match result {
-      Ok(_) => continue,
+      Ok(_) => {},
       Err(e) => {
-        eprintln!("Error: {:?}", e);
+        eprintln!("Send Error: {:?}", e);
         thread::sleep(Duration::from_millis(5_000));
+        continue;
       },
     }
+
+    /*let result = socket.recv_msg(0);
+    match result {
+      Ok(_) => {},
+      Err(e) => {
+        eprintln!("Recv Error: {:?}", e);
+        thread::sleep(Duration::from_millis(5_000));
+        continue;
+      },
+    }*/
   }
 }
