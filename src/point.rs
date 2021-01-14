@@ -67,4 +67,10 @@ impl Point {
   pub fn location_string(&self) -> String {
     format!("{}, {}, {}", self.x, self.y, self.z)
   }
+
+  pub fn debug_string(&self) -> String {
+    format!("(location: {}, {}, {}); (color: {}, {}, {}, alpha: {})",
+            self.x, self.y, self.z,
+            self.r, self.g, self.b, self.a)
+  }
 }

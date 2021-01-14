@@ -35,9 +35,9 @@ impl Color {
     match &self {
       Color::Black => 0.0f32,
       Color::White => 1.0f32,
-      Color::Red => 1.0f32,
+      Color::Red => 0.0f32,
       Color::Green => 0.0f32,
-      Color::Blue => 0.0f32,
+      Color::Blue => 1.0f32,
       Color::Custom {r, g, b} => *b,
     }
   }
