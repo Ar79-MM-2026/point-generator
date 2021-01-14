@@ -14,6 +14,7 @@ path = "src/main.rs"
 
 [dependencies]
 bytes = "1.0.1"
+byteorder = "1.4.2"
 rand = "0.8.2"
 zmq = { version = "0.9", features = ['vendored'] }
 #zeromq = "0.2.0" # Doesn't compile. Complains about Rust issue #54727

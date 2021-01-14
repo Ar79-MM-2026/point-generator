@@ -2,6 +2,7 @@ use bytes::{BytesMut, BufMut};
 use rand::distributions::Uniform;
 use rand::Rng;
 use crate::color::Color;
+use byteorder::{WriteBytesExt, LittleEndian, BigEndian};
 
 
 pub struct Point {
@@ -64,7 +65,7 @@ impl Point {
 
 
   pub fn to_bytes(&self) -> Vec<u8> {
-    let mut buf = BytesMut::with_capacity(32);
+    /*let mut buf = BytesMut::with_capacity(32);
     buf.put_f32(self.x);
     buf.put_f32(self.y);
     buf.put_f32(self.z);
@@ -77,7 +78,17 @@ impl Point {
     buf.put_u32(self.g);
     buf.put_u32(self.b);
     buf.put_u32(self.a);
-    buf.to_vec()
+    buf.to_vec()*/
+    let mut buf = Vec::with_capacity(32);
+    buf.write_f32::<LittleEndian>(self.x);
+    buf.write_f32::<LittleEndian>(self.y);
+    buf.write_f32::<LittleEndian>(self.z);
+    buf.write_f32::<LittleEndian>(0.0f32);
+    buf.write_u32::<LittleEndian>(self.r);
+    buf.write_u32::<LittleEndian>(self.g);
+    buf.write_u32::<LittleEndian>(self.b);
+    buf.write_u32::<LittleEndian>(self.a);
+    buf
   }
 
   pub fn location_string(&self) -> String {

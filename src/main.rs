@@ -31,7 +31,7 @@ fn main() {
   let mut messaging_state = MessagingState::Sending;
 
   loop {
-    let point = Point::at_random_range(-1.0f32, 1.0f32, Color::Blue);
+    let point = Point::at_random_range(-1000.0f32, 1000.0f32, Color::Blue);
     let bytes = point.to_bytes();
     println!("Point : {}", point.debug_string());
 
