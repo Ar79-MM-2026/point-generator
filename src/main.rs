@@ -54,8 +54,8 @@ fn main() {
             messaging_state = MessagingState::Receiving;
           },
           Err(e) => {
-            eprintln!("Send Error: {:?}", e);
-            thread::sleep(Duration::from_millis(250));
+            //eprintln!("Send Error ({}): {:?}", e.to_raw(), e);
+            //thread::sleep(Duration::from_millis(250));
             fail_count += 1;
           },
         }
@@ -71,8 +71,8 @@ fn main() {
             messaging_state = MessagingState::Sending;
           },
           Err(e) => {
-            eprintln!("Recv Error: {:?}", e);
-            thread::sleep(Duration::from_millis(250));
+            //eprintln!("Recv Error ({}): {:?}", e.to_raw(), e);
+            //thread::sleep(Duration::from_millis(250));
             fail_count += 1;
           },
         }
@@ -83,32 +83,32 @@ fn main() {
     if fail_count > 5 {
       reconnect = true;
       fail_count = 0;
-      thread::sleep(Duration::from_millis(2000));
+      //thread::sleep(Duration::from_millis(2000));
     }
   }
 }
 
 fn reconnect_socket(context: &Context, socket: Socket, address: &str) -> Socket {
-  println!("[reconnect] Creating new socket...");
+  //println!("[reconnect] Creating new socket...");
 
   let mut socket = match context.socket(zmq::REQ) {
     Ok(s) => {
-      println!("New socket created.");
+      //println!("New socket created.");
       s
     },
     Err(e) => {
-      println!("Error creating new socket: {:?}", e);
+      //println!("Error creating new socket: {:?}", e);
       return socket;
     },
   };
 
-  println!("Connecting new socket...");
-  match socket.connect("tcp://127.0.0.1:5555") {
+  //println!("Connecting new socket...");
+  match socket.connect(address) {
     Ok(_) => {
-      println!("New socket connected.");
+      //println!("New socket connected.");
     },
     Err(err) => {
-      println!("Error connecting new socket: {:?}", err);
+      //println!("Error connecting new socket: {:?}", err);
     },
   }
 
