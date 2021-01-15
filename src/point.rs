@@ -10,14 +10,10 @@ pub struct Point {
   pub y: f32,
   pub z: f32,
   _unused: f32,
-  //pub r: f32,
-  //pub g: f32,
-  //pub b: f32,
-  //pub a: f32,
-  pub r: u32,
-  pub g: u32,
-  pub b: u32,
-  pub a: u32,
+  pub r: f32,
+  pub g: f32,
+  pub b: f32,
+  pub a: f32,
 }
 
 impl Point {
@@ -28,14 +24,10 @@ impl Point {
       y,
       z,
       _unused: 0.0f32,
-      //r: color.get_f32_r(),
-      //g: color.get_f32_g(),
-      //b: color.get_f32_b(),
-      //a: 1.0f32,
-      r: color.get_u32_r(),
-      g: color.get_u32_g(),
-      b: color.get_u32_b(),
-      a: 1,
+      r: color.get_f32_r(),
+      g: color.get_f32_g(),
+      b: color.get_f32_b(),
+      a: 1.0f32,
     }
   }
 
@@ -52,42 +44,24 @@ impl Point {
       y,
       z,
       _unused: 0.0f32,
-      //r: color.get_f32_r(),
-      //g: color.get_f32_g(),
-      //b: color.get_f32_b(),
-      //a: 1.0f32,
-      r: color.get_u32_r(),
-      g: color.get_u32_g(),
-      b: color.get_u32_b(),
-      a: 1,
+      r: color.get_f32_r(),
+      g: color.get_f32_g(),
+      b: color.get_f32_b(),
+      a: 1.0f32,
     }
   }
 
 
   pub fn to_bytes(&self) -> Vec<u8> {
-    /*let mut buf = BytesMut::with_capacity(32);
-    buf.put_f32(self.x);
-    buf.put_f32(self.y);
-    buf.put_f32(self.z);
-    buf.put_f32(0.0f32); // Unused
-    //buf.put_f32(self.r);
-    //buf.put_f32(self.g);
-    //buf.put_f32(self.b);
-    //buf.put_f32(self.a);
-    buf.put_u32(self.r);
-    buf.put_u32(self.g);
-    buf.put_u32(self.b);
-    buf.put_u32(self.a);
-    buf.to_vec()*/
     let mut buf = Vec::with_capacity(32);
     buf.write_f32::<LittleEndian>(self.x);
     buf.write_f32::<LittleEndian>(self.y);
     buf.write_f32::<LittleEndian>(self.z);
     buf.write_f32::<LittleEndian>(0.0f32);
-    buf.write_u32::<LittleEndian>(self.r);
-    buf.write_u32::<LittleEndian>(self.g);
-    buf.write_u32::<LittleEndian>(self.b);
-    buf.write_u32::<LittleEndian>(self.a);
+    buf.write_f32::<LittleEndian>(self.r);
+    buf.write_f32::<LittleEndian>(self.g);
+    buf.write_f32::<LittleEndian>(self.b);
+    buf.write_f32::<LittleEndian>(self.a);
     buf
   }
 
