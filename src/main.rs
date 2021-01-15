@@ -33,7 +33,7 @@ fn main() {
   loop {
     let point = Point::at_random_range(-1000.0f32, 1000.0f32, Color::Blue);
     let bytes = point.to_bytes();
-    println!("Point : {}", point.debug_string());
+    //println!("Point : {}", point.debug_string());
 
     if reconnect {
       socket = reconnect_socket(&context, socket, SOCKET_ADDRESS);
@@ -43,38 +43,36 @@ fn main() {
 
     match messaging_state {
       MessagingState::Sending => {
-
-        println!("Sending request...");
+        //println!("Sending request...");
         //let result = socket.send("hello world!", 0);
         let result = socket.send(&bytes, 0);
 
         match result {
           Ok(_) => {
-            println!("Sent!");
-            thread::sleep(Duration::from_millis(250));
+            //println!("Sent!");
+            //thread::sleep(Duration::from_millis(250));
             messaging_state = MessagingState::Receiving;
           },
           Err(e) => {
             eprintln!("Send Error: {:?}", e);
-            thread::sleep(Duration::from_millis(2000));
+            thread::sleep(Duration::from_millis(250));
             fail_count += 1;
           },
         }
 
       },
       MessagingState::Receiving => {
-
-        println!("Awaiting response...");
+        //println!("Awaiting response...");
         let result = socket.recv_bytes(DONTWAIT);
 
         match result {
           Ok(_) => {
-            println!("Response received!");
+            //println!("Response received!");
             messaging_state = MessagingState::Sending;
           },
           Err(e) => {
             eprintln!("Recv Error: {:?}", e);
-            thread::sleep(Duration::from_millis(2000));
+            thread::sleep(Duration::from_millis(250));
             fail_count += 1;
           },
         }
@@ -85,7 +83,7 @@ fn main() {
     if fail_count > 5 {
       reconnect = true;
       fail_count = 0;
-      thread::sleep(Duration::from_millis(5000));
+      thread::sleep(Duration::from_millis(2000));
     }
   }
 }
